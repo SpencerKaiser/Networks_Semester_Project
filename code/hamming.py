@@ -59,6 +59,8 @@ def decode(input):
   # Fix error if exists
   if parity_errors:
     bad_bit = reduce(lambda x,y: x+y, parity_errors, 0)-1
+    if bad_bit >= len(output): # Index of error was out of range. Could not detect error
+      return False
     output[bad_bit] = (output[bad_bit]+1)%2
   if __verbose: print output
   # Remove parity bits from message
