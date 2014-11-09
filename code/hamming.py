@@ -69,9 +69,3 @@ def decode(input):
   if __verbose: print output
   return "".join(str(x) for x in output)
   # return "".json(str(x) for x in output)
-
-num = "01111001101010001010100000011110101001010101010"
-# num = "100101010100100101"
-num = "011100101010"
-# num = "011100101110"
-print decode(encode("10"))
