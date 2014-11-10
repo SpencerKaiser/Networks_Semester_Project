@@ -1,5 +1,6 @@
 import hamming
 import crc
+import noise
 
 
 def main():
@@ -24,9 +25,8 @@ def main():
         success = False
         crcEncodedPacket = crc.encode(packet)
 
-        while success == False:                           # Continue until the packet is accurately received
-            # TODO: PASS TO NOISE FUNCTION HERE
-            crcNoisePacket = crcEncodedPacket
+        while not success:                           # Continue until the packet is accurately received
+            crcNoisePacket = noise.gaussian(crcEncodedPacket, 0.03)
 
             crcTransmissions += 1
             success = True
@@ -41,18 +41,22 @@ def main():
         success = False
         hammingEncodedPacket = hamming.encode(packet)
 
-        while success == False:                           # Continue until the packet is accurately received
-            # TODO: PASS TO NOISE FUNCTION HERE
-            hammingNoisePacket = hammingEncodedPacket
+        while not success:                           # Continue until the packet is accurately received
+            hammingNoisePacket = noise.gaussian(hammingEncodedPacket, 0.03)
 
             hammingTransmissions += 1
             success = True
-            
-            if hamming.decode(hammingNoisePacket) == False:       # If error(s) exist
+
+            decodedHammingPacket = hamming.decode(hammingNoisePacket)
+            if not decodedHammingPacket:                        # Hamming decode failed - too many bit flips
                 hammingRetransmissions += 1
                 success = False
-            elif hammingEncodedPacket != hammingNoisePacket:      # Error occured and CRC didn't catch it
+            elif decodedHammingPacket != packet:               # Hamming correction succeeded but packet was not correct
                 hammingUndetectedErrors += 1
+            elif hammingNoisePacket != hammingEncodedPacket:    # If a bit(s) was flipped & the result came back as true
+                hammingCorrections += 1
+
+
 
 
     # SUMMARY
@@ -60,15 +64,18 @@ def main():
 
     print "CRC ANALYSIS:"
     print "\tTransmissions: "+str(crcTransmissions)
-    print "\tRetransmissions: "+str(crcRetransmissions)+" ~ "+str(crcRetransmissions/crcTransmissions*100)+"%"
+    retransmissionRate = round(float(crcRetransmissions)/float(crcTransmissions)*100, 2)
+    print "\tRetransmissions: "+str(crcRetransmissions)+" ~ "+str(retransmissionRate)+"%"
     print "\tUndetected Errors: "+str(crcUndetectedErrors)
     
     print "\n"
 
     print "HAMMING ANALYSIS"
     print "\tTransmissions: "+str(hammingTransmissions)
-    print "\tRetransmissions: "+str(hammingRetransmissions)+" ~ "+str(hammingRetransmissions/hammingTransmissions*100)+"%"
-    print "\tCorrections: "+str(hammingCorrections)
+    retransmissionRate = round(float(hammingRetransmissions)/float(hammingTransmissions)*100, 2)
+
+    print "\tRetransmissions: "+str(hammingRetransmissions)+" ~ "+str(retransmissionRate)+"%"
+    print "\tCorrected Packets: "+str(hammingCorrections)
     print "\tUndetected Errors: "+str(hammingUndetectedErrors)
 
     print "\n"
