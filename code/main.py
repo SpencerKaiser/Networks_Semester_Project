@@ -1,12 +1,23 @@
 import hamming
-
+import crc
 
 def main():
     print("garbage")
     packets = open('../data/packets.txt', 'r')
 
+    badDecodes = 0
+
     for packet in packets:
-        print("b")
+        packet = packet[0:len(packet)-1]        
+        encodedPacket = crc.encode(packet)
+        if crc.decode(encodedPacket) == False:
+            badDecodes
+
+    print "Number of Bad Decodes: "+str(badDecodes)
+        
+
+
+        # print("b")
         # hammingPacket = hamming.encode(packet)
         #
         # hammingSuccess = false;
