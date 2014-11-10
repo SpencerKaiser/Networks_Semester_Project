@@ -64,13 +64,5 @@ def burst(signal, noise_ratio, max_bit_flip=16):
     return "".join(str(x) for x in output)
 
 
-num = '0101000101010101010100110100101010111010101000101010101010010010010101010101010'
-print num
-num = burst(num, 0.05)
 
-
-
-
-
-
-print num
+    
