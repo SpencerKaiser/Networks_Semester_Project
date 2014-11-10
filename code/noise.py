@@ -4,7 +4,7 @@
 import numpy as np
 from sys import stdout
 
-__verbose = True
+__verbose = False
 
 def gaussian(signal, noise_ratio):
     """Put signal through gaussian white noise filter"""
@@ -65,4 +65,3 @@ def burst(signal, noise_ratio, max_bit_flip=16):
 
 
 
-    
