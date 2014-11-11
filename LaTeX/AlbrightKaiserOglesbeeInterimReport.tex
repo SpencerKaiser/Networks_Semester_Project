@@ -7,6 +7,7 @@
 \usepackage{cite}
 \usepackage{fancybox}
 \usepackage{pseudocode}
+\usepackage{pgfplots}
 
 \title{
 Error Correction Coding in Passive UHF Gen2 Communications\\
@@ -232,7 +233,41 @@ The first loop each packet enters is the CRC loop. Our implementation of CRC con
 As we move towards our final deliverable, the main file is likely to change. We will more than likely streamline the method in which we pass each packet to each CRC or ECC function and we will incorporate all three noise models into each packet analysis cycle. In addition, we will also incorporate functionality to better graph the data in real time so we are able to fine-tune the noise probability variables used by each noise model and increase the significance of our results.
 
 \section{Initial Findings}
-Thus far our analysis indicates that both the utilization of both Cyclic Redundancy Check and Error Correcting Codes have merit in RFID communications. 
+Thus far our analysis indicates that both the utilization of both Cyclic Redundancy Check and Error Correcting Codes have merit in RFID communications.
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Retransmission Findings for CRC and Hamming},
+    xlabel={Noise Ratio},
+    ylabel={Restransmission Rate},
+    xmin=0.001, xmax=0.01,
+    ymin=0, ymax=100,
+    xtick={0.002,0.004,0.006,0.008,0.01}, %,0.012,0.014,0.016,0.018},
+    ytick={0,20,40,60,80},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (0.001,12.36)(0.002,25.1)(0.003,19.61)(0.004,41.38)(0.005,46.09)
+    (0.006,53.05)(0.007,56.9)(0.008,64.21)(0.009,68.86)(0.01,73.59)
+    };
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {
+    (0.001,0)(0.002,0.4)(0.003,0.5)(0.004,0.5)(0.005,0.6)
+    (0.006,0.99)(0.007,1.67)(0.008,1.77)(0.009,1.96)(0.01,1.96)
+    };
+    \legend{CRC, Hamming}
+ 
+\end{axis}
+\end{tikzpicture}
 
 \section{Progress Report \& Road Blocks}
 Since our initial proposal, we have made great progress towards our goal. We have fully implemented Cyclic Redundancy Check and the Hamming function and we have successfully integrated two of the three required noise models. We have also found a way to maintain statistics representing each model's effectiveness.
