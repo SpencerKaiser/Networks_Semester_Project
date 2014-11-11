@@ -131,6 +131,51 @@ As previously stated, throughout this entire process the environment maintains s
 
 The first loop each packet enters is the CRC loop. Our implementation of CRC contains two primary functions: one to encode each raw packet, and one to decode a packet that may or may not have been affected by noise.
 
+\begin{pseudocode}{CRC}{Packet}
+\PROCEDURE{Encode}{Packet}
+\mbox{append 16-bit placeholder CRC bits to } Packet\\
+polynomial \GETS \mbox{0x8005}\\
+subPacket \GETS Packet[0:17]\\
+pointer \GETS 17\\
+\WHILE pointer < \mbox{length(} Packet \mbox{)}
+\DO
+\BEGIN
+Result \GETS subPacket \mbox{ XOR } polynomial\\
+subPacket \GETS Result \mbox{(w/o leading zeros)}\\
+numBits \GETS \mbox{17 - length(} subPacket \mbox{)}\\
+subPacket\ += Packet[pointer:pointer+numBits]\\
+pointer\ += numBits
+\END\\
+packet \GETS Packet + subPacket\\
+\RETURN {Packet}
+\ENDPROCEDURE
+
+\PROCEDURE{Decode}{Packet}
+polynomial \GETS \mbox{0x8005}\\
+subPacket \GETS Packet[0:17]\\
+pointer \GETS 17\\
+\WHILE pointer < \mbox{length(} Packet \mbox{)}
+\DO
+\BEGIN
+Result \GETS subPacket \mbox{ XOR } polynomial\\
+subPacket \GETS Result \mbox{(w/o leading zeros)}\\
+numBits \GETS \mbox{17 - length(} subPacket \mbox{)}\\
+subPacket\ += Packet[pointer:pointer+numBits]\\
+pointer\ += numBits
+\END\\
+\IF subPacket \mbox{ is all zeros}
+\THEN
+\RETURN{True}
+\ELSE
+\THEN
+\RETURN{False}
+\ENDPROCEDURE
+\end{pseudocode}
+
+The encode function accepts a string representing a 112-bit packet. This packet is then converted into a "working packet" by appending sixteen placeholder bits to the end. It then enters the loop representing the bulk of the encode functionality. During this loop, a "sub packet" of seventeen bits is extracted from the working packet and passed through an exclusive or gate with a seventeen bit CRC polynomial. The high-order zero bits are removed and new bits are extracted from the working packet to increase the length of the sub packet until it reaches a length of seventeen bits. At this point the loop restarts, and the process continues until all the bits in the entire working packet have been added to the sub packet. At this point, the remaining contents of sub packet are padded with high order zeros to match a length of sixteen bits and appended to the original packet that was passed into the encode function. This updated packet is then returned.
+
+The decode function in a very similar fashion to that of the encode function. Bits are extracted from packet passed to the function, passed into an exclusive or gate with the CRC polynomial, and new bits replace the high order zeros. This continues until all the bits from the entire packet have been pulled into the working packet. At this point, if the result is a 
+
 \begin{pseudocode}{Hamming}{Signal}
 	\PROCEDURE{Encode}{Signal}
 		% Output \GETS [0]\\
