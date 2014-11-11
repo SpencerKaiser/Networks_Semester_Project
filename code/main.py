@@ -26,7 +26,7 @@ def main():
         crcEncodedPacket = crc.encode(packet)
 
         while not success:                           # Continue until the packet is accurately received
-            crcNoisePacket = noise.gaussian(crcEncodedPacket, 0.03)
+            crcNoisePacket = noise.gaussian(crcEncodedPacket, 0.003)
 
             crcTransmissions += 1
             success = True
@@ -42,7 +42,7 @@ def main():
         hammingEncodedPacket = hamming.encode(packet)
 
         while not success:                           # Continue until the packet is accurately received
-            hammingNoisePacket = noise.gaussian(hammingEncodedPacket, 0.03)
+            hammingNoisePacket = noise.gaussian(hammingEncodedPacket, 0.003)
 
             hammingTransmissions += 1
             success = True
@@ -51,13 +51,8 @@ def main():
             if not decodedHammingPacket:                        # Hamming decode failed - too many bit flips
                 hammingRetransmissions += 1
                 success = False
-            elif decodedHammingPacket != packet:               # Hamming correction succeeded but packet was not correct
-                hammingUndetectedErrors += 1
             elif hammingNoisePacket != hammingEncodedPacket:    # If a bit(s) was flipped & the result came back as true
                 hammingCorrections += 1
-
-
-
 
     # SUMMARY
     print "\n"
