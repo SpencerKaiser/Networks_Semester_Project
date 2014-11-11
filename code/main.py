@@ -4,16 +4,8 @@ import noise
 from sys import argv
 
 
-def main():
+def main(noiseRatio):
     packets = open('../data/packets.txt', 'r')
-
-    if len(argv) == 2:
-        noiseRatio = float(argv[1])
-        if noiseRatio < 0 or noiseRatio > 1:
-            print "Noise ration must be between 0 and 1"
-            exit(0)
-    else:
-        noiseRatio = 0.003
 
     # CRC VARIABLES
     crcTransmissions = 0
@@ -86,7 +78,11 @@ def main():
 
     print "\n"
 
-
+    # Write data to file
+    with open("../data/crcOut.txt",'a') as fout:
+        fout.write("(%s,%s)"%(noiseRatio,round(float(crcRetransmissions)/float(crcTransmissions)*100, 2)))
+    with open("../data/hammingOut.txt",'a') as fout:
+        fout.write("(%s,%s)"%(noiseRatio,round(float(hammingRetransmissions)/float(hammingTransmissions)*100, 2)))
         
 
 
@@ -103,4 +99,14 @@ def main():
         # otherPacket = other.encode(packet)
         # otherNoise = noise(otherPacket, 0.005)
 
-main()
+if len(argv) == 2:
+    noiseRatio = float(argv[1])
+    if noiseRatio < 0 or noiseRatio > 1:
+        print "Noise ration must be between 0 and 1"
+        exit(0)
+    else:
+        noiseRatio = 0.003
+# main(noiseRatio)
+
+
+

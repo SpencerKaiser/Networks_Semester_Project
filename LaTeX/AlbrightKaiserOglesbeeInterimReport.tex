@@ -241,6 +241,10 @@ The decode function operates in a very similar fashion to that of the encode fun
 	\ENDPROCEDURE
 \end{pseudocode}
 
+The Hamming module works by accepting one 112-bit simulation packet with no encoding. Since our packet is between 64 and 128 bits, the Hamming parity bits will need to be able to account for up to 128 bits, which is 2\textsuperscript{7}. Therefore, 7 parity bits are needed to encode our entire packet. The parity bits are calculated by XORing various sets of message bits to encode the Hamming bits. Once the Hamming bits are calculated, they are inserted into the packet at locations 1, 2, 4, 8, 16, 32, and 64. The packet is then returned after the encoding of the packet is complete.
+
+Decoding the Hamming packets work in a similar fashion. The parity bits are extracted from the packet. Then, a new set of Hamming bits is calculated from the received message bits. Then, if the freshly calculated parity bits match the ones that were transmitted with the message, we know that no errors occur. However, if a single bit error occurred, the Hamming bits are used to find the specific location of the error, and then correct it. If there are errors detected, it returns a boolean false to indicate so.
+
 \begin{pseudocode}{Gaussian Noise}{Signal, noiseRatio}
 	Noise \GETS \mbox{random value (0-1) for each element of } Signal\\
 	\FOR i \GETS 0 \TO length(Signal) \DO
@@ -253,6 +257,8 @@ The decode function operates in a very similar fashion to that of the encode fun
 		\END\\
 	\RETURN{Signal}
 \end{pseudocode}
+
+Gaussian white noise interferes with individual bits randomly and independently. To simulate that effect, this implementation uses a simple random number generator to simulate noise. Noise in this implementation is a random number between 0 and 1 that is generated for every bit in the incoming signal. If the noise for a particular bit is below the threshold of the noise ratio, the bit is flipped. Note that in this implementation of gaussian noise small random number means that a bit is more likely to be flipped.
 
 \begin{pseudocode}{Burst Noise}{Signal, noiseRatio, maxBitFlip=16}
 	Noise \GETS \mbox{random float (0-1) for each element of } Signal\\
@@ -275,6 +281,8 @@ The decode function operates in a very similar fashion to that of the encode fun
 	\RETURN{Signal}
 \end{pseudocode}
 
+Burst Noise interferes with a series contiguous bits. The Burst Noise implementation starts off with a random noise value between 0 and 1 for every bit in the incoming signal, similar to Gaussian White Noise. In addition to the random noise value, a random length value from 0 to some max bit value (16 by default) is generated for every bit in the incoming signal. If a signal bit has a corresponding noise value that is less than the noise ratio, that single bit is not flipped, instead the next n bits are flipped, where is the random length specified above.
+
 As we move towards our final deliverable, the main file is likely to change. We will more than likely streamline the method in which we pass each packet to each CRC or ECC function and we will incorporate all three noise models into each packet analysis cycle. In addition, we will also incorporate functionality to better graph the data in real time so we are able to fine-tune the noise probability variables used by each noise model and increase the significance of our results.
 
 \section{Initial Findings}
@@ -282,7 +290,7 @@ Thus far our analysis indicates that both the utilization of both Cyclic Redunda
 
 \begin{tikzpicture}
 \begin{axis}[
-    title={Retransmission Findings for CRC and Hamming},
+    title={CRC and Hamming with Gaussian Noise},
     xlabel={Noise Ratio},
     ylabel={Restransmission Rate},
     xmin=0.001, xmax=0.01,
@@ -310,6 +318,38 @@ Thus far our analysis indicates that both the utilization of both Cyclic Redunda
     (0.006,0.99)(0.007,1.67)(0.008,1.77)(0.009,1.96)(0.01,1.96)
     };
     \legend{CRC, Hamming}
+ 
+\end{axis}
+\end{tikzpicture} \\
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={CRC and Hamming with Burst Noise},
+    xlabel={Noise Ratio},
+    ylabel={Restransmission Rate},
+    xmin=0.001, xmax=0.01,
+    ymin=0, ymax=100,
+    xtick={0.002,0.004,0.006,0.008,0.01},
+    ytick={0,20,40,60,80},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (0.001,11.27)(0.002,21.38)(0.003,32.25)(0.004,40.23)(0.005,46.78)(0.006,56.48)(0.007,59.68)(0.008,63.07)(0.009,68.81)(0.01,72.0)
+    };
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {
+    (0.001,0.0)(0.002,0.2)(0.003,0.1)(0.004,0.3)(0.005,1.28)(0.006,0.79)(0.007,1.48)(0.008,1.19)(0.009,1.86)(0.01,1.77)
+    };
+\legend{CRC, Hamming}
  
 \end{axis}
 \end{tikzpicture} \\
