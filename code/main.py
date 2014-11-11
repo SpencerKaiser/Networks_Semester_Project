@@ -1,10 +1,19 @@
 import hamming
 import crc
 import noise
+from sys import argv
 
 
 def main():
     packets = open('../data/packets.txt', 'r')
+
+    if len(argv) == 2:
+        noiseRatio = float(argv[1])
+        if noiseRatio < 0 or noiseRatio > 1:
+            print "Noise ration must be between 0 and 1"
+            exit(0)
+    else:
+        noiseRatio = 0.003
 
     # CRC VARIABLES
     crcTransmissions = 0
@@ -26,7 +35,7 @@ def main():
         crcEncodedPacket = crc.encode(packet)
 
         while not success:                           # Continue until the packet is accurately received
-            crcNoisePacket = noise.gaussian(crcEncodedPacket, 0.003)
+            crcNoisePacket = noise.gaussian(crcEncodedPacket, noiseRatio)
 
             crcTransmissions += 1
             success = True
@@ -42,7 +51,7 @@ def main():
         hammingEncodedPacket = hamming.encode(packet)
 
         while not success:                           # Continue until the packet is accurately received
-            hammingNoisePacket = noise.gaussian(hammingEncodedPacket, 0.003)
+            hammingNoisePacket = noise.gaussian(hammingEncodedPacket, noiseRatio)
 
             hammingTransmissions += 1
             success = True
@@ -56,6 +65,8 @@ def main():
 
     # SUMMARY
     print "\n"
+
+    print "NOISE RATIO: %s\n" % noiseRatio
 
     print "CRC ANALYSIS:"
     print "\tTransmissions: "+str(crcTransmissions)
