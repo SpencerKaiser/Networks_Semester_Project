@@ -1,0 +1,35 @@
+\begin{thebibliography}{1}
+
+\bibitem{5}
+Chien-Ming Chen, Shuai-Min Chen, Xinying Zheng, Pei-Yu Chen, and Hung-Min Sun.
+\newblock {A Secure RFID Authentication Protocol Adopting Error Correction
+  Code}.
+\newblock {\em The Scientific World Journal}, 2014:12, 2014.
+
+\bibitem{2}
+R.~Morelos-Zaragoza.
+\newblock {On Error Performance Improvements of Passive UHF RFID Systems via
+  Syndrome Decoding}.
+\newblock In {\em Internet of Things (iThings/CPSCom), 2011 International
+  Conference on and 4th International Conference on Cyber, Physical and Social
+  Computing}, pages 127--130, Oct 2011.
+
+\bibitem{1}
+G.~Smietanka, J.~Geldmacher, and J.~Gotze.
+\newblock {Error Detection Based on Correlation Analysis for BCH encoded UHF
+  RFID Communication}.
+\newblock In {\em Industrial Technology (ICIT), 2013 IEEE International
+  Conference on}, pages 1666--1670, Feb 2013.
+
+\bibitem{3}
+Yun Tian, Gongliang Chen, and Jianhua Li.
+\newblock {A New Ultralightweight RFID Authentication Protocol with
+  Permutation}.
+\newblock {\em Communications Letters, IEEE}, 16(5):702--705, May 2012.
+
+\bibitem{4}
+Shijie Zhou, Zhen Zhang, Zongwei Luo, and Edward~C. Wong.
+\newblock {A Lightweight Anti-Desynchronization RFID Authentication Protocol}.
+\newblock {\em Information Systems Frontiers}, 12(5):521--528, 2010.
+
+\end{thebibliography}

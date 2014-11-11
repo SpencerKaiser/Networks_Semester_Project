@@ -1,0 +1,21 @@
+% Hamming Code Error Correction Pseudo-Code
+\documentclass{sigcomm-alternate}
+\usepackage{cite}
+\usepackage{fancybox}
+\usepackage{pseudocode}
+
+\begin{pseudocode}{Hamming Encode}{Signal}
+	Output\\
+	ParityBits\\
+	index \GETS 2\\
+	\FOREACH s \in \mathcal{Signal} \DO
+		\BEGIN
+			\IF s\mbox{ is power of two}
+			\THEN
+				\BEGIN
+					parity_bits.push(s)\\
+					output.push(0)\\
+					index /GETS index+1
+				\END
+		\END
+\end{pseudocode}
