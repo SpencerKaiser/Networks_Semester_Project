@@ -6,6 +6,7 @@ from sys import stdout
 
 __verbose = False
 
+
 def gaussian(signal, noise_ratio):
     """Put signal through gaussian white noise filter"""
     if noise_ratio < 0 or noise_ratio > 1:
@@ -29,6 +30,7 @@ def gaussian(signal, noise_ratio):
                 stdout.write(" ")
         print ""
     return "".join(str(x) for x in output)
+
 
 def burst(signal, noise_ratio, max_bit_flip=16):
     """Put signal through burst noise filter"""
