@@ -115,6 +115,105 @@ The general setup of our testing environment runs in a main file, with specific 
 Print\ results\ to\ screen
 \end{pseudocode}
 
+\begin{pseudocode}{Hamming}{Signal}
+	\PROCEDURE{Encode}{Signal}
+		% Output \GETS [0]\\
+		% ParityBits \GETS [1]\\
+		% i \GETS 2\\
+		\mbox{Insert empty parity bits into } Signal\\
+		% \WHILE i < length(Signal) \DO
+		% 	\BEGIN
+		% 		\IF i \mbox{ is power of two}
+		% 		\THEN
+		% 			\BEGIN
+		% 				ParityBits \mbox{ push } i\\
+		% 				Output \mbox{ push } Signal[i]\\
+		% 				i \GETS i+1\\
+		% 			\END\\
+		% 		\BEGIN
+		% 			Output \mbox{ push } Signal[i]\\
+		% 			i \GETS i+1
+		% 		\END
+		% 	\END\\
+		\FOREACH parityBit \mbox{ in } Signal \DO
+			% \BEGIN
+				Signal[parityBit-1] \GETS Parity(Signal, parityBit)\\
+			% \END\\
+		\RETURN{Signal}
+	\ENDPROCEDURE
+
+	\PROCEDURE{Decode}{Signal}
+		\FOREACH parityBit \mbox{ in } Signal \DO
+			\BEGIN
+				\IF Parity(Signal, parityBit) == 1
+				\THEN
+					ParityErrors \mbox{ push } parityBit
+			\END\\
+		\IF ParityErrors
+		\THEN
+			\BEGIN
+				badBit \GETS \mbox{sum of } ParityErrrors\\
+				\IF badBit \geq length(Signal)
+				\THEN
+					\RETURN{False}
+				\ELSE
+					Signal[badBit-1] \GETS !Signal[badBit-1]
+			\END\\
+		\mbox{Remove parity bits from } Signal\\
+		\RETURN{Signal}
+	\ENDPROCEDURE
+
+	\PROCEDURE{Parity}{Signal, parityBit}
+		i \GETS parityBits\\
+		comp \GETS Signal[parityBits-1]\\
+		\WHILE i < length(Signal) \DO
+			\BEGIN
+				j \GETS i\\
+				\WHILE j < i+parityBit \AND j < length(Signal) \DO
+					\BEGIN
+						comp = comp \oplus Signal[j]\\
+						j \GETS j+1
+					\END\\
+				i \GETS i + 2 \cdot parityBit
+			\END\\
+	\RETURN{comp}
+	\ENDPROCEDURE
+\end{pseudocode}
+
+\begin{pseudocode}{Gaussian Noise}{Signal, noiseRatio}
+	Noise \GETS \mbox{random value (0-1) for each element of } Signal\\
+	\FOR i \GETS 0 \TO length(Signal) \DO
+		\BEGIN
+			\IF Signal[i] < noiseRatio
+			\THEN
+				Signal[i] \GETS !Signal[i]
+			\ELSE
+				Signal[i] \GETS Signal[i]
+		\END\\
+	\RETURN{Signal}
+\end{pseudocode}
+
+\begin{pseudocode}{Burst Noise}{Signal, noiseRatio, maxBitFlip=16}
+	Noise \GETS \mbox{random float (0-1) for each element of } Signal\\
+	Length \GETS \mbox{random int (0-maxBitFlip) for each element of } Signal\\
+	i \GETS 0\\	
+	\WHILE i < length(Signal) \DO
+		\BEGIN
+			\IF Signal[i] < noiseRatio
+			\THEN
+				\BEGIN
+					\FOR j \GETS i \TO i+Length[i] \DO
+						\BEGIN
+							Signal[j] \GETS !Signal[j]
+						\END\\
+					i \GETS i + j\\
+				\END
+			\ELSE
+				i \GETS i + 1
+		\END\\
+	\RETURN{Signal}
+\end{pseudocode}
+
 \section{Revised Research Plan}
 
 \textbf{11/11/14: Interim report}

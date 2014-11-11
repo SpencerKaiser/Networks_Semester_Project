@@ -23,8 +23,6 @@ def encode(input):
   while parity_bits:
     if __verbose: print "".join(str(x)+" " for x in output)
     bit = parity_bits.pop(0)
-    index = bit-1
-    comp = 0
     output[bit-1] = calc_parity(output, bit)
   return "".join(str(x) for x in output)
 
