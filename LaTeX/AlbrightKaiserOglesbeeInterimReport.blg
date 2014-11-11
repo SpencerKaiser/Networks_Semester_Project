@@ -5,12 +5,12 @@ The style file: plain.bst
 Database file #1: AlbrightKaiserOglesbeeInterimReport.bib
 You've used 5 entries,
             2118 wiz_defined-function locations,
-            526 strings with 5040 characters,
-and the built_in function-call counts, 2049 in all, are:
+            526 strings with 5050 characters,
+and the built_in function-call counts, 2043 in all, are:
 = -- 194
 > -- 94
 < -- 2
-+ -- 40
++ -- 37
 - -- 32
 * -- 151
 := -- 325
@@ -34,7 +34,7 @@ purify$ -- 26
 quote$ -- 0
 skip$ -- 64
 stack$ -- 0
-substring$ -- 140
+substring$ -- 137
 swap$ -- 27
 text.length$ -- 2
 text.prefix$ -- 0
