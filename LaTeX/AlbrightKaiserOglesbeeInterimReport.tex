@@ -286,7 +286,9 @@ Burst Noise interferes with a series contiguous bits. The Burst Noise implementa
 As we move towards our final deliverable, the main file is likely to change. We will more than likely streamline the method in which we pass each packet to each CRC or ECC function and we will incorporate all three noise models into each packet analysis cycle. In addition, we will also incorporate functionality to better graph the data in real time so we are able to fine-tune the noise probability variables used by each noise model and increase the significance of our results.
 
 \section{Initial Findings}
-Thus far our analysis indicates that both the utilization of both Cyclic Redundancy Check and Error Correcting Codes have merit in RFID communications. The graph below demonstrates the retransmission rate of both CRC and the Hamming Error Correcting Code as the noise ratio increases. While the Hamming code has a very small increase to its retransmission rate as the noise ratio changes, CRC drastically increases to a dysfunctional level.\\
+Thus far our analysis indicates that the utilization of both Cyclic Redundancy Check and Error Correcting Codes have merit in RFID communications. The graph below demonstrates the retransmission rate of both CRC and the Hamming Error Correcting Code as the noise ratio increases in different noise models.
+
+The following shows the retransmission rate of packets run through a Gaussian White Noise model and using CRC and Hemming error detection/correction. While the Hamming code has a very small increase to its retransmission rate as the noise ratio changes, CRC drastically increases to a dysfunctional level.\\
 
 \begin{tikzpicture}
 \begin{axis}[
@@ -321,6 +323,9 @@ Thus far our analysis indicates that both the utilization of both Cyclic Redunda
  
 \end{axis}
 \end{tikzpicture} \\
+
+
+Running packets through a Burst Noise Filter provied a similar outcome to the Gaussian White Noise graph above. The number of retransmissions for packets using Hamming error correction/detection increased slowly but stayed below 2\% even up to a 0.01 noise ratio. On the contrary, the retranmission rate for packets using CRC error detection rose steeply and steeply as the noise ratio was increased.\\
 
 \begin{tikzpicture}
 \begin{axis}[

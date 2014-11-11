@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  11 NOV 2014 13:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  11 NOV 2014 13:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -704,24 +704,9 @@ eck
  []
 
 
-LaTeX Warning: Citation `3' on page \thepage  undefined on input line 50.
-
-
-LaTeX Warning: Citation `1' on page \thepage  undefined on input line 52.
-
-
-LaTeX Warning: Citation `5' on page \thepage  undefined on input line 54.
-
-
-LaTeX Warning: Citation `4' on page \thepage  undefined on input line 56.
-
-
 Overfull \hbox (1.23521pt too wide) in paragraph at lines 56--57
 []\OT1/cmr/m/n/9 Another lightweight pro-to-col for de-synchronization is pro-
  []
-
-
-LaTeX Warning: Citation `2' on page \thepage  undefined on input line 58.
 
 [1{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
@@ -754,24 +739,24 @@ Overfull \hbox (53.17363pt too wide) in paragraph at lines 179--242
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (23.20308pt too wide) in paragraph at lines 249--260
+Overfull \hbox (23.20308pt too wide) in paragraph at lines 248--259
 []\OT1/cmr/bx/n/9 Algorithm 4.4:| []\OT1/cmr/m/n/9 ($\OML/cmm/m/it/9 Signal; no
 iseRatio$\OT1/cmr/m/n/9 ) 
  []
 
 
-Overfull \hbox (34.9681pt too wide) in paragraph at lines 249--260
+Overfull \hbox (34.9681pt too wide) in paragraph at lines 248--259
 []$ 
  []
 
 [3]
-Overfull \hbox (70.45062pt too wide) in paragraph at lines 265--284
+Overfull \hbox (70.45062pt too wide) in paragraph at lines 263--282
 []\OT1/cmr/bx/n/9 Algorithm 4.5:| []\OT1/cmr/m/n/9 ($\OML/cmm/m/it/9 Signal; no
 iseRatio; maxBitFlip \OT1/cmr/m/n/9 =
  []
 
 
-Overfull \hbox (71.78346pt too wide) in paragraph at lines 265--284
+Overfull \hbox (71.78346pt too wide) in paragraph at lines 263--282
 []$ 
  []
 
@@ -794,26 +779,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 325--326
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (10.54701pt too wide) in paragraph at lines 357--358
+Underfull \hbox (badness 10000) in paragraph at lines 328--329
+
+ []
+
+
+Overfull \hbox (10.54701pt too wide) in paragraph at lines 360--361
 [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 357--358
+Underfull \hbox (badness 10000) in paragraph at lines 360--361
 
  []
 
 [4] (./AlbrightKaiserOglesbeeInterimReport.bbl) [5
 
 ]
-(./AlbrightKaiserOglesbeeInterimReport.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+(./AlbrightKaiserOglesbeeInterimReport.aux) ) 
 Here is how much of TeX's memory you used:
  21693 strings out of 493117
  544339 string characters out of 6135433
@@ -822,21 +805,21 @@ Here is how much of TeX's memory you used:
  40788 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,26n,76p,1004b,2058s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/tex
-live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/tex
-live/2014/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/
-texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/te
-xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texl
-ive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
-/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/20
-14/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2014
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2014/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2014/tex
-mf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2014/texmf-dist
-/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/
-type1/urw/times/utmb8a.pfb>
-Output written on AlbrightKaiserOglesbeeInterimReport.pdf (5 pages, 169111 byte
+{/usr/local/texlive/2014/texmf-dis
+t/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2014/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/pub
+lic/amsfonts/cmextra/cmex9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr6.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmsy6.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmsy9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmti9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhv
+b8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
+></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmb8a.pfb>
+Output written on AlbrightKaiserOglesbeeInterimReport.pdf (5 pages, 169550 byte
 s).
 PDF statistics:
  76 PDF objects out of 1000 (max. 8388607)
