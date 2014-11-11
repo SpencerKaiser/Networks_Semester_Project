@@ -41,16 +41,9 @@ Error Correction Coding in Passive UHF Gen2 Communications\\
 \section{Introduction}
 The purpose of this study is to explore possible error-correcting alternatives to the simple Cyclic Redundancy Check (CRC) codes used in Ultra-High Frequency (UHF) Gen2 RFID communications. We will evaluate the complexity added to the RFID system when using various types of error-correcting codes and analyze their effects on the performance of the system. We will also compute the additional circuitry needed to implement our alternatives to CRC, and then weigh the benefits and cost of implementing this particular Error-Correcting Code (ECC) into RFID communications.
 
-As of current, RFID uses Cyclic Redundancy Checks (CRC) to detect errors that happen when the information is transmitted wirelessly from Tag to Reader and from Reader to Tag. However, even if these errors are detected, the system is not able to correct the error, so the result is thrown out and another request for the Tag's ID is made. We propose that if the RFID system was able to correct one-bit or even multiple-bit errors, RFID's reliability and overall success would benefit significantly. By having an error-correcting system implemented, the Reader would be able to identify the Tag in less reads on average, and it would potentially improve the range at which the Reader could identify the Tag.
+As of current, RFID uses an appended series of Cyclic Redundancy Check (CRC) bits to detect errors that happen when the information is transmitted wirelessly from Tag to Reader and from Reader to Tag. However, even if these errors are detected, the system is not able to correct the error, so the result is thrown out and another request for the Tag's ID is made. We propose that if the RFID system was able to correct one-bit or even multiple-bit errors, RFID's reliability and overall success would benefit significantly. By having an error-correcting system implemented, the Reader would be able to identify the Tag in less reads on average, and it would potentially improve the range at which the Reader could identify the Tag.
 
-\section{Methodology}
-\textbf{SHOULD WE KEEP SOME OR ALL OF THIS?}
-
-The first major milestone in approaching our research problem will be to develop a firm understanding of the implementation and execution of Cyclic Redundancy Check (CRC) in the context of RFID interrogators. This will be accomplished through an analysis of the Class-1 Generation-2 UHF RFID documentation provided by EPCglobal and by examining past work in the RFID communications field, specifically with regards to the use of CRC.
-	
-After establishing a thorough understanding of CRC, our next step will be to delve into the execution of error-correcting code. We will do this by reviewing past work that identifies the key differentiations and variations in performance between the two codes. We will then identify one or more specific error-correcting codes that we believe to be most applicable for use in RFID systems and conduct further research regarding these specific codes. 
-
-Finally, once we have developed a deep understanding of CRC and identified one or more error-correcting codes for use in an RFID system, we will transmission error rate metrics for RFID systems to simulate the effect of these error correcting codes in terms of tag reading efficiency, added complexity to the tag and interrogator, and overall performance increase for the system.
+While introducing a wide variety of benefits to the system, utilizing an Error-Correcting Code will most likely increase circuit complexity and, more importantly, will increase the overall bit-length of each packet. This increased length increases the likelihood that one or more bits will flip in the presence of noise. If enough bits are flipped by noise, it is possible that the ECC will be unable to correct the packet, nullifying any potential benefit gained from its use. 
 
 \section{Previous Work}
 In their article, A New Ultralightweight RFID Authentication Protocol with Permutation, authors Tian, Chen, and Li propose implementing a strong but relatively simple protocol that implements permutation in order to establish authenticity between Reader and Tag\cite{3}. The last messages exchanged in their protocol are sent again by the reader to resist against desynchronization attacks.
@@ -63,10 +56,28 @@ Another lightweight protocol for de-synchronization is proposed by authors Zhou,
 
 Finally, On Error Performance Improvements of Passive UHF RFID Systems via Syndrome Decoding discusses using the existing CRC error detection implementation to correct single bit errors. Using a lookup table with various CRC codes and other information stored in it, CRC becomes capable of correcting single bit errors\cite{2}.
 
-\section{Implementation and Testing}
-In order to test the effects of adding an error-correcting code in place of the CRC that is already in place for RFID communications, we decided to implement a virtual testing environment comprised of completely software. We put considerable time and thought into carefully choosing which language to implement our environment in, and after weighing the pros and cons, we chose to write our testing modules in Python. We felt that Python's unique functionality, ingenious string manipulation methods, and overall lightweight qualities would be well suited for rapid processing of simulated transmissions.
+\section{Methodology}
+In order to test the effects of adding an error-correcting code in place of the CRC which is already being utilized in RFID communications, we decided to implement a virtual testing environment. We put considerable time and thought into carefully choosing which language to implement our environment in, and after weighing the pros and cons, we chose to write our testing modules in Python due to its power and simplicity. We felt that Python's unique functionality, incredibly effective string manipulation methods, and overall lightweight qualities would be well suited for rapid processing of simulated transmissions.
 
-The general setup of our testing environment runs in a main file, with specific Python modules included for each Noise model and ECC implementation, which are written in separate files. Our main file simulates an RFID reader unit by opening a text file containing a sample packet on each line. The testing environment then runs each packet through a series of Error-Correcting Codes and Noise models and analyzes the results of the fake transmission, keeping track of variable such as the total number of transmissions, the number of times a retransmission occurred, and how often the ECC was able to correct the errors. the Following algorithm gives an overview of the overall process that a packet goes through:
+Using Python, we will be able to simulate packet generation, packet encoding, and packet decoding with a high degree of consistency and accuracy. We will use random number generation to create base-packets consisting of Protocol Control Bits and an Electronic Product Code (EPC) bits then encode that packet with CRC bits and ECC bits. We will then be able to use those encoded packets to test our decode functions; if every packet can be decoded without error, we will have a high degree of confidence in our encode and decode functions for each model.
+
+At this point we will be able to start running an analysis of our CRC and ECC decoded packets. During our analysis, we will pass these packets to one of three noise functions representing three unique noise
+models. These noise models will move through each packet on a bit-level, randomly flipping bits based on a predetermined noise probability. After moving through the entire packet, we will attempt to decode the packet. 
+
+Depending on our predetermined noise probability, it is entirely likely that a packet will be unaffected by noise. In this situation, all of our models, including CRC, will be able to successfully decode the packet and no retransmissions will be necessary. On the other hand, if the noise probability is high enough, one or more packets may be flipped. If one or more bits is flipped, the CRC function should detect an error and a retransmission will be made. The ECC functions, however, should be able to detect the errors and correct a significant number of the noise affected packets.
+
+Once this initial implementation is complete, we will run a thorough analysis pitting the CRC packets and the ECC packets against the aforementioned noise models. During this analysis, we will continually modify a number of variables affecting the noise and decode functions and maintain statistics of how these changes impact the number of retransmissions required by each type of packet. We will also maintain statistics regarding the amount of corrections made by each type of ECC and the number of times each ECC was unable to correct a packet.
+
+\section{Implementation and Testing}
+As mentioned in the previous section, we determined that utilizing the Python programming language would allow us to effectively simulate the effects of using Cyclic Redundancy Check (CRC) versus three Error-Correcting Codes (ECC) while maintaining the greatest degree of consistency. Python features a variety of string manipulation functions which allow us to easily simulate the bit-level operations needed in each model's encode and decode functions. Similarly, these bit-level operations are necessary for each noise model's ability to flip a bit or series of bits based on a randomly generated number and a predetermined noise probability.
+
+Our implementation is composed of a single main file which functions as a hub, importing a number of individual Python modules representing our implementation of CRC, three ECC models, and three noise models. Each of these modules is accessed by calling functions which either encode, decode, or add noise to a packet and return a result to the hub.
+
+The "main" function in this hub file acts as the primary simulation of an RFID reader unit. This function starts by opening a text file containing one thousand randomly-generated strings of bits representing the Protocol Control Bits and Electronic Product Code (EPC) bits for individual packets. The testing environment begins by initializing a variety of variables intended to monitor the total number of packets transmitted for each model, the number of necessary retransmissions for each model, and, in the case of ECCs, the number of packets that were successfully corrected by each model. It then prepares each partial packet for analysis by stripping excess data and ensuring it fits the required length.
+
+ At this point, each packet enters a series of loops, each of which represent either CRC or an ECC. Each loop begins by calling its respective model's encode function. These functions either append bits to the end of the packet, or restructure the packet and interweave bits for later use in the decoding process. Once the packet is encoded, it is passed to a noise model along with a probability indicating the likelihood that any individual bit will be flipped. After the noise model has successfully iterated through the entire packet, the result is returned. The encoded packet, which may or may not have been affected by noise, is now ready to be decoded.
+ 
+Depending on whether CRC or an ECC was used, the decode process may or may not be able to successfully read a noise-affected packet. If the model was unable to decode the packet after this initial detection and/or correction, a retransmission must occur and the packet is sent through the noise model once again. This process continues until the packet is successfully read, at which point, the packet then enters the next loop.
 
 \begin{pseudocode}{Packet Analysis}{Parameters}
 \FOREACH Packet \in File 
@@ -112,8 +123,12 @@ The general setup of our testing environment runs in a main file, with specific 
 			\END
 	\END\\\\
 	
-Print\ results\ to\ screen
+Print\ model\ statistics\ to\ screen
 \end{pseudocode}
+
+As previously stated, throughout this entire process the environment maintains statistics representing the total number of packets sent and received by each model and each models ability to detect and/or correct packets that were affected by noise.
+
+The first loop each packet enters is the CRC loop. Our implementation of CRC contains two primary functions: one to encode each raw packet, and one to decode a packet that may or may not have been affected by noise.
 
 \begin{pseudocode}{Hamming}{Signal}
 	\PROCEDURE{Encode}{Signal}
@@ -214,13 +229,27 @@ Print\ results\ to\ screen
 	\RETURN{Signal}
 \end{pseudocode}
 
+As we move towards our final deliverable, the main file is likely to change. We will more than likely streamline the method in which we pass each packet to each CRC or ECC function and we will incorporate all three noise models into each packet analysis cycle. In addition, we will also incorporate functionality to better graph the data in real time so we are able to fine-tune the noise probability variables used by each noise model and increase the significance of our results.
+
+\section{Initial Findings}
+Thus far our analysis indicates that both the utilization of both Cyclic Redundancy Check and Error Correcting Codes have merit in RFID communications. 
+
+\section{Progress Report \& Road Blocks}
+Since our initial proposal, we have made great progress towards our goal. We have fully implemented Cyclic Redundancy Check and the Hamming function and we have successfully integrated two of the three required noise models. We have also found a way to maintain statistics representing each model's effectiveness.
+
+Unfortunately, we have had tremendous difficulty understanding the implementation of the Reed-Solomon error correcting code. We have spent countless hours digging into documentation regarding it's process and we have been unable to recreate it.
+
+Similarly, we have been unable to gather any truly meaningful data regarding the number of logic gates required by CRC functionality, and thus, we have been unable to accurately determine the number of additional gates needed for each of our three ECCs. This is something we are going to have to have to spend additional time researching and we may reach out to on-campus resources for help with the matter.
+
+Overall we feel we have made significant progress as a group and we now feel that our revised schedule is appropriate. We believe we are on track for the final deliverable and we believe we will have meaningful data from our analysis, which will accurately represent our study's findings.
+
 \section{Revised Research Plan}
 
-\textbf{11/11/14: Interim report}
+\textbf{11/11/14: Interim report Due}
 
 11/12 - 11/16: Implement missing Noise and ECC models
 
-11/17 - 11/21: Perform final analysis on effectiveness on each Error Correcting Code for each Noise Model and collect data for comparison
+11/17 - 11/21: Perform final analysis on effectiveness of each Error Correcting Code for each Noise Model and collect data for comparison
 
 11/22 - 11/27: FINAL WORK PERIOD - Make final additions to paper and revise
 
@@ -231,9 +260,6 @@ Print\ results\ to\ screen
 12/1 - TBD: Compile final presentation from components and practice delivery
 
 \textbf{TBD (12/2/14 - 12/4/14): Final Presentation}
-
-\section{Road Blocks and Concerns}
-The major road block we have is finding a quantitative method to measure the efficacy of a protocol in a theoretical environment. Most past work on efficacy of error-correcting protocols in RFID communication has been conducted in controlled laboratory environments. While a statistical analysis based on the chance of message bits being corrupted under various conditions is plausible, we have not yet found any pre-existing methods for conducting the analysis.
 
 \nocite{*}
 \bibliographystyle{plain}
