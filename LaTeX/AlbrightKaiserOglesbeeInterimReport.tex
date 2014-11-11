@@ -1,0 +1,102 @@
+
+% Author: Charlie Albright, Spencer Kaiser, Luke Oglesbee
+% Creation Date: 9 October 2014
+% Version: 1.0
+%
+\documentclass{sigcomm-alternate}
+\usepackage{cite}
+\usepackage{fancybox}
+\usepackage{pseudocode}
+
+\title{
+Error Correction Coding in Passive UHF Gen2 Communications\\
+{\large CSE 4344}
+}
+
+\numberofauthors{3}
+\author{
+\alignauthor Charlie A. Albright\\
+\affaddr{Computer Science and Engineering Department\\
+ 	Southern Methodist University\\
+	Dallas, Texas USA}\\
+\email{calbright@smu.edu}
+%
+\alignauthor Spencer A. Kaiser\\
+\affaddr{Computer Science and Engineering Department\\
+ 	Southern Methodist University\\
+	Dallas, Texas USA}\\
+\email{skaiser@smu.edu}
+%
+\alignauthor Luke W. Oglesbee\\
+\affaddr{Computer Science and Engineering Department\\
+ 	Southern Methodist University\\
+	Dallas, Texas USA}\\
+\email{loglesbee@smu.edu}
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+The purpose of this study is to explore possible error-correcting alternatives to the simple Cyclic Redundancy Check (CRC) codes used in Ultra-High Frequency (UHF) Gen2 RFID communications. We will evaluate the complexity added to the RFID system when using various types of error-correcting codes and analyze their effects on the performance of the system.
+
+\begin{pseudocode}{Packet Analysis}{Parameters}\WHILE Packet \in File \DO\BEGINPrepare\ Packet\\Encode\ Packet\\CALL{Noise}{Packet,\ Probability}\\Decode\ Packet\END\end{pseudocode}
+
+
+As of current, RFID uses Cyclic Redundancy Checks (CRC) to detect errors that happen when the information is transmitted wirelessly from Tag to Reader and from Reader to Tag. However, even if these errors are detected, the system is not able to correct the error, so the result is thrown out and another request for the Tag's ID is made. We propose that if the RFID system was able to correct one-bit or even multiple-bit errors, RFID would benefit significantly. By having an error-correcting system implemented, the Reader would be able to identify the Tag in less reads on average, and it would potentially improve the range at which the Reader could identify the Tag.
+
+\section{Methodology}
+The first major milestone in approaching our research problem will be to develop a firm understanding of the implementation and execution of Cyclic Redundancy Check (CRC) in the context of RFID interrogators. This will be accomplished through an analysis of the Class-1 Generation-2 UHF RFID documentation provided by EPCglobal and by examining past work in the RFID communications field, specifically with regards to the use of CRC.
+	
+After establishing a thorough understanding of CRC, our next step will be to delve into the execution of error-correcting code. We will do this by reviewing past work that identifies the key differentiations and variations in performance between the two codes. We will then identify one or more specific error-correcting codes that we believe to be most applicable for use in RFID systems and conduct further research regarding these specific codes. 
+
+Finally, once we have developed a deep understanding of CRC and identified one or more error-correcting codes for use in an RFID system, we will transmission error rate metrics for RFID systems to simulate the effect of these error correcting codes in terms of tag reading efficiency, added complexity to the tag and interrogator, and overall performance increase for the system.
+
+\section{Previous Work}
+In their article, A New Ultralightweight RFID Authentication Protocol with Permutation, authors Tian, Chen, and Li propose implementing a strong but relatively simple protocol that implements permutation in order to establish authenticity between Reader and Tag. The last messages exchanged in their protocol are sent again by the reader to resist against desynchronization attacks. ~\cite{3}
+
+Authors Grzegorz Smietanka, Jan Geldmacher and Jurgen Gotze proposed the implementation of Forward Error Correction (FEC) in their article, Error Detection Based on Correlation Analysis for BCH Encoded UHF RFID Communication. They say the FEC could be implemented easily because of BCH code?s similarity to CRC. \cite{1}
+
+A Secure RFID Authentication Protocol Adopting Error Correction Code talks about using a one-way hash to establish authenticity and prevent intentional transmission manipulation, which CRC is not capable of detecting. By hashing the Tag?s ID, a secret key, and random challenge numbers, the authors claim that mutual authentication can be achieved. \cite{5}
+
+Another lightweight protocol for de-synchronization is proposed by authors Zhou, Zhang, Luo, and Wong in their article A lightweight anti-desynchronization RFID authentication protocol. They claim that using the one-way hash and XOR functions while the backend server keeps a history of all shared secret keys prevents desynchronization and is capable of finding intentional errors. \cite{4}
+
+Finally, On Error Performance Improvements of Passive UHF RFID Systems via Syndrome Decoding discusses using the existing CRC error detection implementation to correct single bit errors. Using a lookup table with various CRC codes and other information stored in it, CRC becomes capable of correcting single bit errors. \cite{2}
+
+\section{Revised Research Plan}
+
+\textbf{11/11/14: Interim report}
+
+11/12 - 11/16: Implement missing Noise and ECC models
+
+11/17 - 11/21: Perform final analysis on effectiveness on each Error Correcting Code for each Noise Model and collect data for comparison
+
+11/22 - 11/27: FINAL WORK PERIOD - Make final additions to paper and revise
+
+11/28: Assign presentation sub-sections to team members
+
+11/28 - 12/1: Team members individually create presentation components
+
+12/1 - TBD: Compile final presentation from components and practice delivery
+
+\textbf{TBD (12/2/14 - 12/4/14): Final Presentation}
+
+
+\section{Necessary Resources}
+We chose to conduct a theoretical analysis of the communication protocols at hand. Building our own RFID interrogator and RFID tags for each case would be exceedingly difficult considering the intricate electrical components that must be constructed. This time could better be devoted to a more complete theoretical analysis of the communication protocols in question.  Because we are taking a purely theoretical approach, no hardware will be required; however, we would value any input from the instructor concerning resources and methods for analyzing the efficacy of communication protocols.
+
+\section{Road Blocks and Concerns}
+The major road block we have is finding a quantitative method to measure the efficacy of a protocol in a theoretical environment. Most past work on efficacy of error-correcting protocols in RFID communication has been conducted in controlled laboratory environments. While a statistical analysis based on the chance of message bits being corrupted under various conditions is plausible, we have not yet found any pre-existing methods for conducting the analysis.
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{AlbrightKaiserOglesbeeInterimReport} 
+
+\balancecolumns
+%---- End the Document
+\end{document}
+
+
+
+
