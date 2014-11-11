@@ -174,7 +174,7 @@ pointer\ += numBits
 
 The encode function accepts a string representing a 112-bit packet. This packet is then converted into a "working packet" by appending sixteen placeholder bits to the end. It then enters the loop representing the bulk of the encode functionality. During this loop, a "sub packet" of seventeen bits is extracted from the working packet and passed through an exclusive or gate with a seventeen bit CRC polynomial. The high-order zero bits are removed and new bits are extracted from the working packet to increase the length of the sub packet until it reaches a length of seventeen bits. At this point the loop restarts, and the process continues until all the bits in the entire working packet have been added to the sub packet. At this point, the remaining contents of sub packet are padded with high order zeros to match a length of sixteen bits and appended to the original packet that was passed into the encode function. This updated packet is then returned.
 
-The decode function operates in a very similar fashion to that of the encode function. Bits are extracted from packet passed to the function, passed into an exclusive or gate with the CRC polynomial, and new bits replace the high order zeros. This continues until all the bits from the entire packet have been pulled into the working packet. At this point, if the result is a 
+The decode function operates in a very similar fashion to that of the encode function. Bits are extracted from packet passed to the function, passed into an exclusive or gate with the CRC polynomial, and new bits replace the high order zeros. This continues until all the bits from the entire packet have been pulled into the working packet. At this point, if the result is a sub packet containing all zeros, the decode was successful and a boolean True value is returned. If the remaining sub packet does not contain all zeros, an error was detected and the packet must be retransmitted. In this case, a boolean False is returned and the main file attempts to retransmit the packet.
 
 \begin{pseudocode}{Hamming}{Signal}
 	\PROCEDURE{Encode}{Signal}
@@ -278,7 +278,7 @@ The decode function operates in a very similar fashion to that of the encode fun
 As we move towards our final deliverable, the main file is likely to change. We will more than likely streamline the method in which we pass each packet to each CRC or ECC function and we will incorporate all three noise models into each packet analysis cycle. In addition, we will also incorporate functionality to better graph the data in real time so we are able to fine-tune the noise probability variables used by each noise model and increase the significance of our results.
 
 \section{Initial Findings}
-Thus far our analysis indicates that both the utilization of both Cyclic Redundancy Check and Error Correcting Codes have merit in RFID communications.
+Thus far our analysis indicates that both the utilization of both Cyclic Redundancy Check and Error Correcting Codes have merit in RFID communications. The graph below demonstrates the retransmission rate of both CRC and the Hamming Error Correcting Code as the noise ratio increases. While the Hamming code has a very small increase to its retransmission rate as the noise ratio changes, CRC drastically increases to a dysfunctional level.\\
 
 \begin{tikzpicture}
 \begin{axis}[
@@ -312,7 +312,9 @@ Thus far our analysis indicates that both the utilization of both Cyclic Redunda
     \legend{CRC, Hamming}
  
 \end{axis}
-\end{tikzpicture}
+\end{tikzpicture} \\
+
+Moving forward, we will complete additional analyses for CRC and each ECC model against every type of noise model. We will also attempt to graphically demonstrate the drawbacks of using ECC in limited-noise situations.
 
 \section{Progress Report \& Road Blocks}
 Since our initial proposal, we have made great progress towards our goal. We have fully implemented Cyclic Redundancy Check and the Hamming function and we have successfully integrated two of the three required noise models. We have also found a way to maintain statistics representing each model's effectiveness.
