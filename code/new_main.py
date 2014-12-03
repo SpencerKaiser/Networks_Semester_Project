@@ -90,29 +90,115 @@ with open('../data/trial1.csv','w') as fout:
   csvOut.writerow(crcDrift)
 
   #Hamming with Gaussian noise
-  hammingGuassian = {}
-  hammingGuassian["algorithm"] = "plain CRC"
-  hammingGuassian["noise"] = "drift"
-  hammingGuassian["transmissions"] = 0
-  hammingGuassian["retransmissions"] = 0
-  hammingGuassian["corrections"] = 0
-  hammingGuassian["badReads"] = 0
+  row = {}
+  row["algorithm"] = "hamming"
+  row["noise"] = "gaussian"
+  row["transmissions"] = 0
+  row["retransmissions"] = 0
+  row["corrections"] = 0
+  row["badReads"] = 0
   with open('../data/packets.txt','r') as fin:
     for packet in fin:
       packet = packet.strip()
       hammingEncodedPacket = hamming.encode(packet)
       success = False
       while not success:
-        hammingNoisePacket = noise.gaussian(crcEncodedPacket, noiseRatio)
-        hammingGuassian["transmissions"] += 1
-        success = True
-        decodedHammingPacket = hamming.decode(hammingNoisePacket)
-        if not decodedHammingPacket:
-          hammingGuassian["retransmissions"] += 1
-          success = False
-        elif hammingNoisePacket != hammingEncodedPacket:
-          hammingGuassian["corrections"] +=1
-  csvOut.writerow(hammingGuassian)
+        hammingNoisePacket = noise.gaussian(hammingEncodedPacket, noiseRatio)
+        row["transmissions"] += 1
+        hammingDecodedPacket = hamming.decode(hammingNoisePacket)
+        if hammingEncodedPacket == hammingNoisePacket: # No interference
+          success = True
+        elif hammingDecodedPacket == packet: # Correction was good
+          success = True
+          row["corrections"] += 1
+        elif hammingDecodedPacket == False: # Could not correct
+          row["retransmissions"] += 1
+        else: # Bad correction
+          row["badReads"] +=1
+  csvOut.writerow(row)
+
+  #Hamming with Burst noise
+  row = {}
+  row["algorithm"] = "hamming"
+  row["noise"] = "burst"
+  row["transmissions"] = 0
+  row["retransmissions"] = 0
+  row["corrections"] = 0
+  row["badReads"] = 0
+  with open('../data/packets.txt','r') as fin:
+    for packet in fin:
+      packet = packet.strip()
+      hammingEncodedPacket = hamming.encode(packet)
+      success = False
+      while not success:
+        hammingNoisePacket = noise.burst(hammingEncodedPacket, noiseRatio)
+        row["transmissions"] += 1
+        hammingDecodedPacket = hamming.decode(hammingNoisePacket)
+        if hammingEncodedPacket == hammingNoisePacket: # No interference
+          success = True
+        elif hammingDecodedPacket == packet: # Correction was good
+          success = True
+          row["corrections"] += 1
+        elif hammingDecodedPacket == False: # Could not correct
+          row["retransmissions"] += 1
+        else: # Bad correction
+          row["badReads"] +=1
+          success = True
+  csvOut.writerow(row)
+
+  #Hamming with Drift noise
+  row = {}
+  row["algorithm"] = "hamming"
+  row["noise"] = "drift"
+  row["transmissions"] = 0
+  row["retransmissions"] = 0
+  row["corrections"] = 0
+  row["badReads"] = 0
+  with open('../data/packets.txt','r') as fin:
+    for packet in fin:
+      packet = packet.strip()
+      hammingEncodedPacket = hamming.encode(packet)
+      success = False
+      while not success:
+        hammingNoisePacket = noise.drift(hammingEncodedPacket, noiseRatio)
+        row["transmissions"] += 1
+        hammingDecodedPacket = hamming.decode(hammingNoisePacket)
+        if hammingEncodedPacket == hammingNoisePacket: # No interference
+          success = True
+        elif hammingDecodedPacket == packet: # Correction was good
+          success = True
+          row["corrections"] += 1
+        elif hammingDecodedPacket == False: # Could not correct
+          row["retransmissions"] += 1
+        else: # Bad correction
+          row["badReads"] +=1
+          success = True
+  csvOut.writerow(row)
+
+  # CRC to hamming with guassian noise
+  row = {}
+  row["algorithm"] = "CRC to hamming"
+  row["noise"] = "gaussian"
+  row["transmissions"] = 0
+  row["retransmissions"] = 0
+  row["corrections"] = 0
+  row["badReads"] = 0
+  with open('../data/packets.txt','r') as fin:
+    for packet in fin:
+      packet = packet.strip()
+      halfEncodedPacket = crc.encode(packet)
+      encodedPacket = hamming.encode(halfEncodedPacket)
+      success = False
+      while not success:
+        noisePacket = noise.gaussian(encodedPacket, noiseRatio)
+        row["transmissions"] += 1
+        halfDecodedPacket = hamming.decode(noisePacket)
+        if halfDecodedPacket:
+          decodedPacket = crc.decode(halfDecodedPacket)
+        else:
+          decodedPacket = False
+
+  csvOut.writerow(row)
 
 
 
