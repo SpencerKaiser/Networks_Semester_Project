@@ -71,14 +71,14 @@ class Converter:
         return bitstream
 
 
-c = Converter()
-
-initialStream = "110100110101111100110111"
-bytestream = c.bitsToBytes(initialStream)
-bitstream = c.bytesToBits(bytestream)
-
-print "Initial:\t" + initialStream + "\r"
-print "Bytestream:\t" + bytestream + "\r"
-print "Bitstream:\t" + bitstream + "\r"
+# c = Converter()
+#
+# initialStream = "110100110101111100110111"
+# bytestream = c.bitsToBytes(initialStream)
+# bitstream = c.bytesToBits(bytestream)
+#
+# print "Initial:\t" + initialStream + "\r"
+# print "Bytestream:\t" + bytestream + "\r"
+# print "Bitstream:\t" + bitstream + "\r"
 
 
