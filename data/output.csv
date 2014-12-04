@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 algorithm,noise,transmissions,retransmissions,corrections,badReads
 plain CRC,white,1444,444,0,0
 plain CRC,burst,1476,476,0,0
@@ -5,3 +6,5 @@ plain CRC,drift,1667,667,0,0
 hamming,gaussian,1049,7,248,42
 hamming,burst,1004,4,30,252
 hamming,drift,1009,9,36,355
+=======
+>>>>>>> d2f1180be915d27ae53136213ace419772508da4
