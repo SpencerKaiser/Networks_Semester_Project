@@ -272,8 +272,6 @@ with open('../data/output.csv', 'w') as fout:
                     success = False
                 else:
                     row["badReads"] += 1
-
-                print success
     csvOut.writerow(row)
 
     # Reed-Solomon 16-bit with Drift noise
@@ -306,8 +304,6 @@ with open('../data/output.csv', 'w') as fout:
                     success = False
                 else:
                     row["badReads"] += 1
-
-                print success
     csvOut.writerow(row)
 
     # Reed-Solomon 32-bit with Gaussian noise
@@ -373,8 +369,6 @@ with open('../data/output.csv', 'w') as fout:
                     success = False
                 else:
                     row["badReads"] += 1
-
-                print success
     csvOut.writerow(row)
 
     # Reed-Solomon 32-bit with Drift noise
@@ -407,8 +401,6 @@ with open('../data/output.csv', 'w') as fout:
                     success = False
                 else:
                     row["badReads"] += 1
-
-                print success
     csvOut.writerow(row)
 
 
