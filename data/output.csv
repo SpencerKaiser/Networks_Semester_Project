@@ -1,10 +1,13 @@
 algorithm,noise,transmissions,retransmissions,corrections,badReads
-plain CRC,white,1465,465,0,0
-plain CRC,burst,1448,448,0,0
-plain CRC,drift,1731,731,0,0
-hamming,gaussian,1046,2,251,44
-hamming,burst,1004,4,24,288
-hamming,drift,1023,23,25,386
-Reed-Solomon,Gaussian,1000,0,303,0
-Reed-Solomon,Burst,1188,188,168,0
-Reed-Solomon,Drift,1442,442,113,0
+plain CRC,white,1455,455,0,0
+plain CRC,burst,1491,491,0,0
+plain CRC,drift,1730,730,0,0
+hamming,gaussian,1050,4,250,46
+hamming,burst,1003,3,33,270
+hamming,drift,1011,11,29,373
+Reed-Solomon 16,Gaussian,1000,0,281,0
+Reed-Solomon 16,Burst,1160,160,167,0
+Reed-Solomon 16,Drift,1436,436,105,0
+Reed-Solomon 32,Gaussian,1000,0,287,0
+Reed-Solomon,Burst,1021,21,269,0
+Reed-Solomon 32,Drift,1460,460,95,0

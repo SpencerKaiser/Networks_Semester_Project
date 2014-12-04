@@ -209,10 +209,10 @@ with open('../data/output.csv', 'w') as fout:
     #
     # csvOut.writerow(row)
 
-    # Reed-Solomon with Gaussian noise
-    print "Reed-Solomon - Gaussian...\r"
+    # Reed-Solomon 16-bit with Gaussian noise
+    print "Reed-Solomon 16-bit - Gaussian...\r"
     row = {}
-    row["algorithm"] = "Reed-Solomon"
+    row["algorithm"] = "Reed-Solomon 16"
     row["noise"] = "Gaussian"
     row["transmissions"] = 0
     row["retransmissions"] = 0
@@ -242,10 +242,10 @@ with open('../data/output.csv', 'w') as fout:
 
     csvOut.writerow(row)
 
-    # Reed-Solomon with Burst noise
-    print "Reed-Solomon - Burst...\r"
+    # Reed-Solomon 16-bit with Burst noise
+    print "Reed-Solomon 16-bit - Burst...\r"
     row = {}
-    row["algorithm"] = "Reed-Solomon"
+    row["algorithm"] = "Reed-Solomon 16"
     row["noise"] = "Burst"
     row["transmissions"] = 0
     row["retransmissions"] = 0
@@ -276,16 +276,117 @@ with open('../data/output.csv', 'w') as fout:
                 print success
     csvOut.writerow(row)
 
-    # Reed-Solomon with Drift noise
-    print "Reed-Solomon - Drift...\r"
+    # Reed-Solomon 16-bit with Drift noise
+    print "Reed-Solomon 16-bit - Drift...\r"
     row = {}
-    row["algorithm"] = "Reed-Solomon"
+    row["algorithm"] = "Reed-Solomon 16"
     row["noise"] = "Drift"
     row["transmissions"] = 0
     row["retransmissions"] = 0
     row["corrections"] = 0
     row["badReads"] = 0
     reedsol = rs.RSCoder(128, 112)
+    with open('../data/packets.txt', 'r') as fin:
+        for packet in fin:
+            packet = packet.strip()
+            encodedPacket = reedsol.encode(packet)
+            success = False
+            while not success:
+                noisePacket = noise.drift_RS(encodedPacket, noiseRatio)
+                row["transmissions"] += 1
+                success = True
+                decodedPacket = reedsol.decode(noisePacket)
+
+                if noisePacket[0:112] == packet:
+                    continue
+                elif decodedPacket == packet:
+                    row["corrections"] += 1
+                elif decodedPacket != packet:
+                    row["retransmissions"] += 1
+                    success = False
+                else:
+                    row["badReads"] += 1
+
+                print success
+    csvOut.writerow(row)
+
+    # Reed-Solomon 32-bit with Gaussian noise
+    print "Reed-Solomon 32-bit - Gaussian...\r"
+    row = {}
+    row["algorithm"] = "Reed-Solomon 32"
+    row["noise"] = "Gaussian"
+    row["transmissions"] = 0
+    row["retransmissions"] = 0
+    row["corrections"] = 0
+    row["badReads"] = 0
+    reedsol = rs.RSCoder(144, 112)
+    with open('../data/packets.txt', 'r') as fin:
+        for packet in fin:
+            packet = packet.strip()
+            encodedPacket = reedsol.encode(packet)
+            success = False
+            while not success:
+                noisePacket = noise.gaussian_RS(encodedPacket, noiseRatio)
+                row["transmissions"] += 1
+                success = True
+                decodedPacket = reedsol.decode(noisePacket)
+
+                if noisePacket[0:112] == packet:
+                    continue
+                elif decodedPacket == packet:
+                    row["corrections"] += 1
+                elif decodedPacket != packet:
+                    row["retransmissions"] += 1
+                    success = False
+                else:
+                    row["badReads"] += 1
+
+    csvOut.writerow(row)
+
+    # Reed-Solomon 32 with Burst noise
+    print "Reed-Solomon 32-bit - Burst...\r"
+    row = {}
+    row["algorithm"] = "Reed-Solomon"
+    row["noise"] = "Burst"
+    row["transmissions"] = 0
+    row["retransmissions"] = 0
+    row["corrections"] = 0
+    row["badReads"] = 0
+    reedsol = rs.RSCoder(144, 112)
+    with open('../data/packets.txt', 'r') as fin:
+        for packet in fin:
+            packet = packet.strip()
+            encodedPacket = reedsol.encode(packet)
+            success = False
+            while not success:
+                noisePacket = noise.burst_RS(encodedPacket, noiseRatio)
+                row["transmissions"] += 1
+                success = True
+                decodedPacket = reedsol.decode(noisePacket)
+
+                if noisePacket[0:112] == packet:
+                    continue
+                elif decodedPacket == packet:
+                    row["corrections"] += 1
+                elif decodedPacket != packet:
+                    row["retransmissions"] += 1
+                    success = False
+                else:
+                    row["badReads"] += 1
+
+                print success
+    csvOut.writerow(row)
+
+    # Reed-Solomon 32-bit with Drift noise
+    print "Reed-Solomon 32-bit - Drift...\r"
+    row = {}
+    row["algorithm"] = "Reed-Solomon 32"
+    row["noise"] = "Drift"
+    row["transmissions"] = 0
+    row["retransmissions"] = 0
+    row["corrections"] = 0
+    row["badReads"] = 0
+    reedsol = rs.RSCoder(144, 112)
     with open('../data/packets.txt', 'r') as fin:
         for packet in fin:
             packet = packet.strip()
