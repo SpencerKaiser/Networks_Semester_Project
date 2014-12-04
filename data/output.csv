@@ -1,4 +1,10 @@
 algorithm,noise,transmissions,retransmissions,corrections,badReads
-CRC to hamming,gaussian,1066,66,298,0
-CRC to hamming,burst,1406,406,52,0
-CRC to hamming,drift,1074,74,258,0
+plain CRC,white,1128,128,0,0
+plain CRC,burst,1134,134,0,0
+plain CRC,drift,1802,802,0,0
+hamming,gaussian,1010,0,96,10
+hamming,burst,1000,0,14,81
+hamming,drift,1011,11,19,359
+CRC to hamming,gaussian,1011,11,109,0
+CRC to hamming,burst,1141,141,15,0
+CRC to hamming,drift,1011,11,133,0
