@@ -184,30 +184,124 @@ with open('../data/output.csv', 'w') as fout:
     csvOut.writerow(row)
 
     # CRC to hamming with guassian noise
-    # print "CRC->Hamming - Gaussian...\r"
-    # row = {}
-    # row["algorithm"] = "CRC to hamming"
-    # row["noise"] = "gaussian"
-    # row["transmissions"] = 0
-    # row["retransmissions"] = 0
-    # row["corrections"] = 0
-    # row["badReads"] = 0
-    # with open('../data/packets.txt','r') as fin:
-    #   for packet in fin:
-    #     packet = packet.strip()
-    #     halfEncodedPacket = crc.encode(packet)
-    #     encodedPacket = hamming.encode(halfEncodedPacket)
-    #     success = False
-    #     while not success:
-    #       noisePacket = noise.gaussian(encodedPacket, noiseRatio)
-    #       row["transmissions"] += 1
-    #       halfDecodedPacket = hamming.decode(noisePacket)
-    #       if halfDecodedPacket:
-    #         decodedPacket = crc.decode(halfDecodedPacket)
-    #       else:
-    #         decodedPacket = False
-    #
-    # csvOut.writerow(row)
+    print "CRC->Hamming - Gaussian...\r"
+    row = {}
+    row["algorithm"] = "CRC to hamming"
+    row["noise"] = "gaussian"
+    row["transmissions"] = 0
+    row["retransmissions"] = 0
+    row["corrections"] = 0
+    row["badReads"] = 0
+    with open('../data/packets.txt', 'r') as fin:
+        for packet in fin:
+            packet = packet.strip()
+
+            halfEncodedPacket = crc.encode(packet)
+            encodedPacket = hamming.encode(halfEncodedPacket)
+            success = False
+            while not success:
+                noisePacket = noise.gaussian(encodedPacket, noiseRatio)
+                halfDecodedPacket = hamming.decode(noisePacket)
+                success = True
+                row["transmissions"] += 1
+                if halfDecodedPacket:
+                    decodedPacket = crc.decode(halfDecodedPacket)
+
+                    if noisePacket == encodedPacket:
+                        continue
+                    elif decodedPacket is True:
+                        row["corrections"] += 1
+                    elif decodedPacket is False:
+                        row["retransmissions"] += 1
+                        success = False
+                    else:
+                        row["badReads"] += 1
+
+                else:
+                    row["retransmissions"] += 1
+                    success = False
+
+    csvOut.writerow(row)
+
+    # CRC to Hamming with Burst Noise
+    print "CRC->Hamming - Burst...\r"
+    row = {}
+    row["algorithm"] = "CRC to hamming"
+    row["noise"] = "burst"
+    row["transmissions"] = 0
+    row["retransmissions"] = 0
+    row["corrections"] = 0
+    row["badReads"] = 0
+    with open('../data/packets.txt', 'r') as fin:
+        for packet in fin:
+            packet = packet.strip()
+
+            halfEncodedPacket = crc.encode(packet)
+            encodedPacket = hamming.encode(halfEncodedPacket)
+            success = False
+            while not success:
+                noisePacket = noise.burst(encodedPacket, noiseRatio)
+                halfDecodedPacket = hamming.decode(noisePacket)
+                success = True
+                row["transmissions"] += 1
+                if halfDecodedPacket:
+                    decodedPacket = crc.decode(halfDecodedPacket)
+
+                    if noisePacket == encodedPacket:
+                        continue
+                    elif decodedPacket is True:
+                        row["corrections"] += 1
+                    elif decodedPacket is False:
+                        row["retransmissions"] += 1
+                        success = False
+                    else:
+                        row["badReads"] += 1
+
+                else:
+                    row["retransmissions"] += 1
+                    success = False
+
+    csvOut.writerow(row)
+
+    # CRC to Hamming with Drift Noise
+    print "CRC->Hamming - Drift...\r"
+    row = {}
+    row["algorithm"] = "CRC to hamming"
+    row["noise"] = "drift"
+    row["transmissions"] = 0
+    row["retransmissions"] = 0
+    row["corrections"] = 0
+    row["badReads"] = 0
+    with open('../data/packets.txt', 'r') as fin:
+        for packet in fin:
+            packet = packet.strip()
+
+            halfEncodedPacket = crc.encode(packet)
+            encodedPacket = hamming.encode(halfEncodedPacket)
+            success = False
+            while not success:
+                noisePacket = noise.drift(encodedPacket, noiseRatio)
+                halfDecodedPacket = hamming.decode(noisePacket)
+                success = True
+                row["transmissions"] += 1
+                if halfDecodedPacket:
+                    decodedPacket = crc.decode(halfDecodedPacket)
+
+                    if noisePacket == encodedPacket:
+                        continue
+                    elif decodedPacket is True:
+                        row["corrections"] += 1
+                    elif decodedPacket is False:
+                        row["retransmissions"] += 1
+                        success = False
+                    else:
+                        row["badReads"] += 1
+
+                else:
+                    row["retransmissions"] += 1
+                    success = False
+
+    csvOut.writerow(row)
 
     # Reed-Solomon 16-bit with Gaussian noise
     print "Reed-Solomon 16-bit - Gaussian...\r"
