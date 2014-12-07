@@ -1,25 +1,20 @@
-import crc
-import hamming
+import rs
 import noise
+import converter
 
+reedSolomon = rs.RSCoder(128, 112)
+c = converter.Converter()
+bitstream = "0100110010011101100000010100100110001110101011111011100111110010010010001011110011010110001000101001111000010101"
+rsLength = 8
 
-with open('../data/packets.txt', 'r') as fin:
-    for packet in fin:
-        packet = packet.strip()
-
-        print "Orig Packet:\t" + packet + "\r"
-        halfEncodedPacket = crc.encode(packet)
-        print "CRC Packet:\t\t" + halfEncodedPacket + "\r"
-        encodedPacket = hamming.encode(halfEncodedPacket)
-        print "Hamming Packet:\t" + encodedPacket + "\r"
-        noisePacket = noise.gaussian(encodedPacket, 0.003)
-        print "Noise Packet:\t" + noisePacket + "\r"
-        halfDecodedPacket = hamming.decode(noisePacket)
-        print "Hamming Decode:\t" + str(halfDecodedPacket) + "\r"
-        if halfDecodedPacket:
-            decodedPacket = crc.decode(halfDecodedPacket)
-            print "Full Decode:\t" + str(decodedPacket) + "\n"
-        else:
-            print "Full Decode:\tFalse\n"
-
-
+codedstream = reedSolomon.encode(bitstream)
+print "Encoded: " + str(codedstream) + "\r"
+afternoise = noise.gaussian_RS(codedstream, 0.03)
+print "Noise: " + str(afternoise) + "\r"
+decodedstream = reedSolomon.decode(afternoise)
+print "Decoded: " + str(decodedstream) + "\r"
+# outputString = ""
+# for i in range(0, 28):
+#     outputString += chr(decodedstream[i])
+#
+# print "String: " + outputString
