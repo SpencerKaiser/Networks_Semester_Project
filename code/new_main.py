@@ -15,8 +15,8 @@ import converter
 #     noiseRatio = 0.003
 
 noiseRatio = 0.0
-noiseStep = .00025
-noiseLimit = .0125
+noiseStep = .0005
+noiseLimit = .025
 
 # CREATE CSV FILES AND BEGIN OUTER LOOP
 with open('../data/output.csv', 'w') as fout, open('../data/gaussian.csv', 'w') as gaussianFile, open('../data/burst.csv', 'w') as burstFile:
