@@ -8,15 +8,15 @@ import converter
 
 # if len(argv) == 2:
 #     noiseRatio = float(argv[1])
-#     if noiseRatio < 0 or noiseRatio > 1:
+#     if noiseRatio < 0 or noiseRatio > 1
 #         print "Noise ration must be between 0 and 1"
 #         exit(0)
 # else:
 #     noiseRatio = 0.003
 
-noiseRatio = 0.025
+noiseRatio = 0.0
 noiseStep = .00025
-noiseLimit = .025
+noiseLimit = .0125
 
 # CREATE CSV FILES AND BEGIN OUTER LOOP
 with open('../data/output.csv', 'w') as fout, open('../data/gaussian.csv', 'w') as gaussianFile, open('../data/burst.csv', 'w') as burstFile:
