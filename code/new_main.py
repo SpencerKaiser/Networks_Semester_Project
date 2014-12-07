@@ -136,13 +136,13 @@ with open('../data/output.csv', 'w') as fout:
                             numRT += 1
                         else:  # Bad correction
                             badReads += 1
+                            success = True
 
             rowData["Hamming RT G"] = round(float(numRT) / numTrans, 4)
 
             rowDataStats["Hamming T"] = numTrans
             rowDataStats["Hamming RT"] = numRT
             rowDataStats["Hamming BRs"] = badReads
-
 
             print "Hamming RT G\r"
             print "\tNumTrans:\t" + str(numTrans)
@@ -174,6 +174,7 @@ with open('../data/output.csv', 'w') as fout:
                             numRT += 1
                         else:  # Bad correction
                             badReads += 1
+                            success = True
 
             rowData["Hamming RT B"] = round(float(numRT) / numTrans, 4)
 
