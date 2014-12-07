@@ -116,8 +116,9 @@ def burst_RS(signal, noise_ratio, max_bit_flip=16):
         print "noise_ratio must be between 0 and 1"
         return False
     # Generate noise
+    noise_ratio = noise_ratio/8
     noise = np.random.rand(len(signal))
-    length = [int(x*max_bit_flip) for x in np.random.rand(len(signal))]
+    length = [int(x*max_bit_flip)+1 for x in np.random.rand(len(signal))]
     flip = map(lambda x: x < noise_ratio, noise)
     i = 0
     while i < len(flip):
