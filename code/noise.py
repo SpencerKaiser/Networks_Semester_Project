@@ -66,20 +66,20 @@ def burst(signal, noise_ratio, max_bit_flip=16):
     print ""
   return "".join(str(x) for x in output)
 
-def drift(signal, noise_ratio, max_delta=0.1):
+def drift(signal, noise_ratio, delta=0.4):
   """Put singal through drift noise fitler"""
   if noise_ratio < 0 or noise_ratio > 1:
     print "noise_ratio must be between 0 and 1"
     return False
   # Generate noise
   noise = [0]*len(signal)
-  noise[0] = random()*2*noise_ratio-noise_ratio # initialize first value with a random number
+  noise[0] = random() # initialize first value with a random number
   for i in range(1,len(signal)):
-    noise[i] += noise[i-1]+(random()-random()+random()-random())*max_delta
+    noise[i] = max(0, noise[i-1]+20*np.random.normal(-0.1,delta))
   
   # calculate the flip
   # noiseLevel = 1 - noise_ratio*
-  flip = map(lambda x: abs(x) > noise_ratio, noise)
+  flip = map(lambda x: x > noise_ratio, noise)
   # print noise
   output = []
   for f,s in zip(flip, signal):
