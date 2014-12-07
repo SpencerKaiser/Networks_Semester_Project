@@ -316,7 +316,7 @@ with open('../data/output.csv', 'w') as fout:
             rowData["RS 16 RT G"] = round(float(numRT) / numTrans, 4)
 
             rowDataStats["RS 16 T"] = numTrans
-            rowDataStats["RS 16 T"] = numRT
+            rowDataStats["RS 16 RT"] = numRT
             rowDataStats["RS 16 Corr"] = corrections
 
 
@@ -357,7 +357,7 @@ with open('../data/output.csv', 'w') as fout:
             rowData["RS 16 RT B"] = round(float(numRT) / numTrans, 4)
 
             rowDataStats["RS 16 T"] += numTrans
-            rowDataStats["RS 16 T"] += numRT
+            rowDataStats["RS 16 RT"] += numRT
             rowDataStats["RS 16 Corr"] += corrections
 
             print "RS 16 RT B\r"
@@ -397,7 +397,7 @@ with open('../data/output.csv', 'w') as fout:
             rowData["RS 32 RT G"] = round(float(numRT) / numTrans, 4)
 
             rowDataStats["RS 32 T"] = numTrans
-            rowDataStats["RS 32 T"] = numRT
+            rowDataStats["RS 32 RT"] = numRT
             rowDataStats["RS 32 Corr"] = corrections
 
 
@@ -438,7 +438,7 @@ with open('../data/output.csv', 'w') as fout:
             rowData["RS 32 RT B"] = round(float(numRT) / numTrans, 4)
 
             rowDataStats["RS 32 T"] += numTrans
-            rowDataStats["RS 32 T"] += numRT
+            rowDataStats["RS 32 RT"] += numRT
             rowDataStats["RS 32 Corr"] += corrections
 
             print "RS 32 RT B\r"
