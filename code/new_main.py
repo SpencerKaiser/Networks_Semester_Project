@@ -14,7 +14,7 @@ import converter
 # else:
 #     noiseRatio = 0.003
 
-noiseRatio = 0.0
+noiseRatio = 0.00025
 noiseStep = .0005
 noiseLimit = .025
 
