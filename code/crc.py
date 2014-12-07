@@ -1,5 +1,5 @@
 # CSE4344 - Networks
-# CRC Implementation - This file contains function to encode/decode a packet using CRC
+# CRC Implementation - This file contains functionality to encode/decode a packet using CRC
 
 #GLOBAL VARIABLES
 polynomial = "11000000000000101"        # Official CRC-16 poly = 0x8005 ~ 1000 0000 0000 0101 (includes 1 in high bi)
